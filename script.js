@@ -1,17 +1,19 @@
+// Sélection des boutons "+" et "-"
 const plusButtons = document.querySelectorAll(".increase-qty");
 const minusButtons = document.querySelectorAll(".decrease-qty");
 
+// Gestion des boutons "+"
 plusButtons.forEach((btn) => {
   btn.addEventListener("click", function () {
-    console.log("ok");
     let quantityElement = this.previousElementSibling;
     let quantity = parseInt(quantityElement.textContent);
     quantity++;
     quantityElement.textContent = quantity;
-    updateTotal();
+    updateTotal(); // Mise à jour du total après modification
   });
 });
 
+// Gestion des boutons "-"
 minusButtons.forEach((btn) => {
   btn.addEventListener("click", function () {
     let quantityElement = this.nextElementSibling;
@@ -19,21 +21,23 @@ minusButtons.forEach((btn) => {
     if (quantity > 1) {
       quantity--;
       quantityElement.textContent = quantity;
-      updateTotal();
+      updateTotal(); // Mise à jour du total après modification
     }
   });
 });
 
-const deleteButtons = document.querySelectorAll(".delete-btn");
+// Suppression d'un article du panier
+const deleteButtons = document.querySelectorAll(".remove-item");
 
 deleteButtons.forEach((btn) => {
   btn.addEventListener("click", function () {
     let item = this.closest(".cart-item");
     item.remove();
-    updateTotal();
+    updateTotal(); // Mise à jour du total après suppression
   });
 });
 
+// Gestion des "likes"
 const heartButtons = document.querySelectorAll(".heart-btn");
 
 heartButtons.forEach((btn) => {
@@ -42,17 +46,17 @@ heartButtons.forEach((btn) => {
   });
 });
 
+// Fonction pour mettre à jour le prix total
 function updateTotal() {
   const cartItems = document.querySelectorAll(".cart-item");
   let total = 0;
 
   cartItems.forEach((item) => {
-    const price = parseFloat(
-      item.querySelector(".item-price").textContent.replace("$", "")
-    );
-    const quantity = parseInt(item.querySelector(".quantity").textContent);
+    const price = parseFloat(item.querySelector(".price").textContent);
+    const quantity = parseInt(item.querySelector(".quantity").textContent); // Sélection de la quantité correcte
     total += price * quantity;
   });
 
-  document.querySelector(".total-price").textContent = "$" + total.toFixed(2);
+  // Mise à jour de l'élément prix total
+  document.querySelector("#total").textContent = total.toFixed(2);
 }
